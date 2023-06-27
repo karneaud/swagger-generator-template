@@ -1,0 +1,42 @@
+{
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.18",
+        "phpunit/phpunit":"^9.0",
+        "karneaud/swagger-php-generator": "1.0.0-alpha"
+    },
+    "repositories": {
+      "swagger-php-generator": { 
+        "type": "package",
+        "package": {
+          "name": "karneaud/swagger-php-generator",
+          "version":"1.0.0-alpha",
+          "source": {
+            "url": "https://github.com/karneaud/swagger-php-generator.git",
+            "type": "git", 
+            "reference": "origin/dev"
+          }
+        }
+      }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": "true"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Telecain\\": "src/"
+        }
+    },
+    "require": {
+        "twig/twig": "^3.0"
+    },
+    "scripts":{
+        "generate":["./vendor/karneaud/swagger-php-generator/bin/generate"]
+    }
+}
