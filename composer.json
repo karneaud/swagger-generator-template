@@ -4,20 +4,35 @@
         "phpunit/phpunit":"^9.0",
         "karneaud/swagger-php-generator": "1.0.0-alpha"
     },
-    "repositories": {
-      "swagger-php-generator": { 
-        "type": "package",
-        "package": {
-          "name": "karneaud/swagger-php-generator",
-          "version":"1.0.0-alpha",
-          "source": {
-            "url": "https://github.com/karneaud/swagger-php-generator.git",
-            "type": "git", 
-            "reference": "origin/dev"
-          }
-        }
-      }
-    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+              "name": "karneaud/swagger-php-generator",
+              "version": "1.0.0-alpha",
+              "type": "package",
+              "require": {
+                "php":">=7.4 || ^8.0",
+                "nette/php-generator": "^3.0",
+                "symfony/yaml": "^3.4",
+                "symfony/serializer": "^3.4",
+                "psr/http-message": "^1.0"
+              },
+              "autoload": {
+                "psr-4": {
+                  "SwaggerGen\\": "src/"
+                }
+              },
+              "bin":[
+                "bin/generate"
+              ],
+              "source": {
+                "url": "https://github.com/karneaud/swagger-php-generator.git",
+                "type": "git",
+                "reference": "dev"
+              }
+            }
+          }],
     "config": {
         "allow-plugins": {
             "php-http/discovery": true
@@ -28,15 +43,10 @@
             "allow-contrib": "true"
         }
     },
-    "autoload": {
-        "psr-4": {
-            "Telecain\\": "src/"
-        }
-    },
     "require": {
         "twig/twig": "^3.0"
     },
     "scripts":{
-        "generate":["./vendor/karneaud/swagger-php-generator/bin/generate"]
+        "generate":["generate"]
     }
 }
