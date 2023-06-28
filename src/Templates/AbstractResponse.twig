@@ -1,0 +1,28 @@
+<?php
+namespace {{ namespace }}\Message\Response;
+
+use {{ namespace }}\Http\HttpResponseInterface;
+
+abstract class AbstractResponse implements ResponseInterface;
+{
+    protected $data;
+    protected $http_response;
+
+    public function getData(): mixed {
+       return $this->data; 
+    }
+
+    public function getHttpResponse(): HttpResponseInterface {
+        return $this->http_response;
+    }
+    
+    public function getCode() : int {
+        return (int) $this->getHttpResponse()->getStatusCode();
+    }
+
+    public function getMessage(): string {
+        return $this->getHttpResponse()->getReasonPhrase();
+    }
+
+    abstract public function getParameter(string $key): mixed ;
+}
