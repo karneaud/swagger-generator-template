@@ -20,12 +20,16 @@ class RequestGenerator extends AbstractGenerator implements GeneratorInterface
                 foreach ($info as $method => $details) {
                     $method = ucfirst($method);
                     $class_parameters = $details['parameters'] ?? [];
-                    $namespace = $this->getNamespace();
+                    $namespace = $this->namespace;
                     $class_name = $this->getClassName("{$method}{$path}");
                     $content = $twig->render('Request.twig', compact('namespace','class_name','class_parameters','method'));
                     $this->addClass($class_name,$content);
                 }
             }
+
+            $this->addClass('RequestInterface', $twig->render('RequestInterface.twig', ['namespace' => $this->namespace ] ));
+            $this->addClass('AbstractRequest', $twig->render('AbstractRequest.twig', ['namespace' => $this->namespace ] ));
+
         }
     }
 
