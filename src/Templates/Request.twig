@@ -1,0 +1,16 @@
+<?php
+namespace {{ namespace }};
+
+use Psr\Http\Message\RequestInterface;
+use {{ namespace }}\AbstractRequest;
+
+class {{ class_name }} extends AbstractRequest implements RequestInterface
+{
+  private $endpoint = '{{ endpoint }}';
+  private $method = '{{ method | upper }}';
+  {% for param in class_parameters %}
+  public function set{{ param.name | capitalize }}({{ param.schema.type }} $value) {
+    $this->setParameter('{{param.name}}',$value);  
+  }
+  {% endfor %}
+}
