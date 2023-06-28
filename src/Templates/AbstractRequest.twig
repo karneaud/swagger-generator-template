@@ -1,0 +1,74 @@
+<?php
+namespace {{ namespace }}\Message\Request;
+
+use {{ namespace }}\Exception\ValidationException;
+use {{ namespace }}\Message\Response\ResponseInterface;
+
+abstract class AbstractRequest implements RequestInterface
+{
+    /**
+     * @var string
+     */
+    protected $method;
+    /**
+     * @var string
+     */
+    protected $api_version = 1;
+
+    protected $test_mode = true;
+
+    public function getData() : array {
+       try {
+        $this->validate();
+        $data = $this->getParameters();
+       } catch (\Exception $e) {throw $e;}
+
+       return $data;
+    }
+
+    public function send() : ResponseInterface {
+        return $this->sendData($this->getData());
+    }
+
+    abstract protected function validate();
+
+    abstract protected function sendData($data) :?ResponseInterface;
+
+    protected function setEndpoint($value) {
+        $this->endpoint = $value;
+    }
+
+    protected function sendRequest($method, $endpoint, array $headers = [], array $data = [] )
+    {
+        return $this->httpClient->request(
+            $method,
+            $endpoint,
+            $headers,
+            json_encode($data)
+        );
+    }
+
+    abstract protected setParameter(string $key, $value);
+    abstract protected function createResponse(array $data) : ResponseInterface;
+
+    public function setApiVersion($value) {
+        
+        $this->api_version = $value;
+    }
+
+    public function getApiVersion() {
+        return $this->api_version;
+    }
+
+    abstract protected function getBaseUrl() : string;
+
+    abstract protected function getEndpointUrl(?array $params = []): string; 
+
+    public function getTestMode(): boolean {
+        return (bool) $this->test_mode;
+    }
+
+    public function setTestMode( $value = true) {
+        $this->test_mode = $value;
+    }
+ }
