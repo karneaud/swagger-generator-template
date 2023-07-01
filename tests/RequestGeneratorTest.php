@@ -32,4 +32,11 @@ class RequestGeneratorTest extends TestCase
         $this->assertStringContainsString('setId',$generatedFiles['GetCampaignForId']['content']);
 
     }
+
+    public function testClassHasParameters() {
+        $generatedFiles = $this->generator->getGeneratedClassFiles();
+        $this->assertArrayHasKey('PostUsers',$generatedFiles);
+        $this->assertStringContainsString('setName',$generatedFiles['PostUsers']['content']);
+        $this->assertStringContainsString('setName',$generatedFiles['PostCampaign']['content']);
+    }
 }
