@@ -16,7 +16,7 @@ class ResponseGenerator extends AbstractGenerator implements GeneratorInterface
 
     public function build(array $options)
     {   
-            $this->addClass('ValidationException', sprintf($this->templ, $this->namespace, 'ValidationException') );
+         $this->addClass('ValidationException', sprintf($this->templ, $this->namespace, 'ValidationException') );
     }
 
     public function getNamespace() :string {

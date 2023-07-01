@@ -9,6 +9,34 @@ use Twig\Loader\FilesystemLoader;
 
 class RequestGenerator extends AbstractGenerator implements GeneratorInterface
 {
+    
+    private function extractRequestBodyParameters(array $openapi, string $path, string $method = 'get')
+    {
+        $parameters = [];
+        $details = $openapi['paths'][$path][$method];
+        $pathParameters = $details['parameters'] ?? [];
+        foreach ($pathParameters as $pathParameter) {
+            $parameters[$pathParameter['name']] = $pathParameter['schema']['type'];
+        }
+
+        if(!empty($requestBody = ($details['requestBody'] ?? []))){
+            
+            if (isset($requestBody['content']['application/json']['schema']['$ref'])) {
+                $ref = $requestBody['content']['application/json']['schema']['$ref'];
+                $componentSchema = $openapi['components']['schemas'][ substr($ref,strrpos($ref,'/') +1 )];
+                $parameters = array_merge($parameters, array_map(fn($prop) => $prop['type'] ?? null,$componentSchema['properties']));
+            } else if(isset($requestBody['content']['application/json']['schema']['properties'])) {
+                $requestBodyParameters = $requestBody['content']['application/json']['schema']['properties'];
+                foreach ($requestBodyParameters as $key => $requestBodyParameter) {
+                    $parameters[$key] = $requestBodyParameter['type'];
+                }
+            }
+        }
+    
+        return $parameters;
+    }
+
+
     public function build(array $options)
     {
         if (isset($options['paths'])) {
@@ -18,11 +46,12 @@ class RequestGenerator extends AbstractGenerator implements GeneratorInterface
             
             foreach ($options['paths'] as $path => $info) {
                 foreach ($info as $method => $details) {
+                    $class_parameters = $this->extractRequestBodyParameters($options,$path,$method);
+                    $endpoint = $path;
                     $method = ucfirst($method);
-                    $class_parameters = $details['parameters'] ?? [];
                     $namespace = $this->namespace;
                     $class_name = $this->getClassName("{$method}{$path}");
-                    $content = $twig->render('Request.twig', compact('namespace','class_name','class_parameters','method'));
+                    $content = $twig->render('Request.twig', compact('namespace','class_name','class_parameters','method','endpoint'));
                     $this->addClass($class_name,$content);
                 }
             }
