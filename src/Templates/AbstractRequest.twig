@@ -17,7 +17,7 @@ abstract class AbstractRequest implements RequestInterface
 
     protected $test_mode = true;
 
-    public function getData() : array {
+    protected function getData() : array {
        try {
         $this->validate();
         $data = $this->getParameters();
@@ -48,7 +48,7 @@ abstract class AbstractRequest implements RequestInterface
         );
     }
 
-    abstract protected setParameter(string $key, $value);
+    abstract protected function setParameter(string $key, $value);
     abstract protected function createResponse(array $data) : ResponseInterface;
 
     public function setApiVersion($value) {
@@ -71,4 +71,6 @@ abstract class AbstractRequest implements RequestInterface
     public function setTestMode( $value = true) {
         $this->test_mode = $value;
     }
+
+    abstract protected function getParameters();
  }
