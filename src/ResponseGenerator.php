@@ -18,6 +18,15 @@ class ResponseGenerator extends AbstractGenerator implements GeneratorInterface
 
         $this->addClass('ResponseInterface', $twig->render('ResponseInterface.twig',['namespace' => $this->namespace ]));
         $this->addClass('AbstractResponse', $twig->render('AbstractResponse.twig',['namespace' => $this->namespace ]));
+        
+        $this->createHttpResponseClass();
+    }
+
+    public function getNamespace() :string {
+        return "{$this->namespace}\\Message\\Response";
+    }
+
+    private function createHttpResponseClass() {
         $templ = <<<PHP
         <?php
         namespace {$this->namespace}\Http;
@@ -32,10 +41,23 @@ class ResponseGenerator extends AbstractGenerator implements GeneratorInterface
             'namespace' => "{$this->namespace}\\Http",
             'dir' => join(DIRECTORY_SEPARATOR,explode('\\',$this->namespace)) . "/Http",
             "content" => $templ
-        ]; 
-    }
+        ];
+    } 
 
-    public function getNamespace() :string {
-        return "{$this->namespace}\\Message\\Response";
-    }
+
+    public function createBaseResponseClass() {
+        $templ = <<<PHP
+        <?php
+        namespace {$this->namespace}\Message\Response;
+
+        use {$this->namespace}\Http\HttpResponseInterface;
+
+        class BaseResponse extends AbstractResponse implements ResponseInterface
+        {
+            
+        }
+        PHP;
+
+        $this->addClass('BaseResponse',$templ);
+    } 
 }
