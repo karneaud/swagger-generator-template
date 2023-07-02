@@ -1,4 +1,5 @@
 {
+    "name":"karneaud/swagger-php-generator-template",
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.18",
         "phpunit/phpunit":"^9.0",
@@ -45,6 +46,7 @@
         }
     },
     "require": {
+        "php":">7.4||^8.0",
         "twig/twig": "^3.0"
     },
     "scripts":{
