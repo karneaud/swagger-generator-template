@@ -7,40 +7,21 @@ use {{ namespace }}\Message\Response\ResponseInterface;
 abstract class AbstractClient implements ClientInterface
 {
   
-  private $base_url;
   private $default_parameters = [];
-  private $api_version;
   private $api_key;
   private $api_secret;
-  private $test_mode = true;
-
-  public function setBaseUrl(string $value) {
-    $this->base_url = $value;
-  }
-
-  public function setApiVersion(string $value) {
-    $this->api_version = $value;
-  }
-
-  public function getApiVersion() : int {
-    return $this->api_version;
-  }
-
-  public function setTestMode(bool: $mode) {
-    $this->test_mode = $mode;    
-  }
-
-  public function getTestMode() : bool {
-    return $this->test_mode;
-  }
-
+  
   public function getDefaultParameters() : array {
         $this->default_parameters;
   }
 
-  public abstract function setDefaultParameters(array $params) {};
+  abstract public function setDefaultParameters(array $params);
   
-  protected function createRequest(string $class_name, array $parameters ) :RequestInterface {
+  public function createRequest(string $class_name, array $parameters ) :RequestInterface {
     return new $class_name($parameters);
   }
+  
+  abstract public function getParameter(string $key ) : mixed;
+
+  abstract public function setParameter(string $key, $value);
 }
