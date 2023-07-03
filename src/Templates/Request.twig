@@ -11,7 +11,7 @@ class {{ class_name }} extends BaseRequest implements RequestInterface
   private $method = '{{ method | upper }}';
   
   {% for param,type in class_parameters %}
-  public function set{{ param | capitalize }}({{ type }} $value) {
+  public function set{{ param[:1]|upper ~ param[1:] }}({{ type }} $value) {
     $this->setParameter('{{param}}',$value);  
   }
   {% endfor %}
