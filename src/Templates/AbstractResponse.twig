@@ -5,11 +5,10 @@ use {{ namespace }}\Http\HttpResponseInterface;
 
 abstract class AbstractResponse implements ResponseInterface
 {
-    protected $data;
     protected $http_response;
 
     public function getData(): mixed {
-       return $this->data; 
+       return $this->getParameters(); 
     }
 
     public function getHttpResponse(): HttpResponseInterface {
@@ -24,5 +23,7 @@ abstract class AbstractResponse implements ResponseInterface
         return $this->getHttpResponse()->getReasonPhrase();
     }
 
-    abstract public function getParameter(string $key): mixed ;
+    abstract public function getParameters() : array;
+
+    protected public function getParameter(string $key): mixed ;
 }
