@@ -1,14 +1,20 @@
 <?php
 namespace {{ namespace }}\Message\Request;
 // You will need to create this BaseRequest class as abstracted from the AbstractRequest; 
-use BaseRequest;
-use RequestInterface;
+use {{namespace}}\Message\Request\BaseRequest;
+use {{namespace}}\Message\Request\RequestInterface;
 
 class {{ class_name }} extends BaseRequest implements RequestInterface
 {
   
   private $endpoint = '{{ endpoint }}';
   private $method = '{{ method | upper }}';
+  protected $http_client;
+
+  function __construct(array $parameters = [], $http_client = null) {
+      parent::__construct($http_client);
+      $this->initialize($parameters);
+  }
   
   {% for param,type in class_parameters %}
   public function set{{ param[:1]|upper ~ param[1:] }}({{ type }} $value) {
