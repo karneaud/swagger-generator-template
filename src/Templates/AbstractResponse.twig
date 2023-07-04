@@ -25,5 +25,5 @@ abstract class AbstractResponse implements ResponseInterface
 
     abstract public function getParameters() : array;
 
-    protected public function getParameter(string $key): mixed ;
+    abstract public function getParameter(string $key): array ;
 }
