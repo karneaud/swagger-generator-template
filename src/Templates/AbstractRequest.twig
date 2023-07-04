@@ -1,22 +1,13 @@
 <?php
 namespace {{ namespace }}\Message\Request;
 
+use {{ namespace }}\Message\Request\RequestInterface;
 use {{ namespace }}\Exception\ValidationException;
 use {{ namespace }}\Message\Response\ResponseInterface;
 
 abstract class AbstractRequest implements RequestInterface
 {
-    /**
-     * @var string
-     */
-    protected $method;
-    /**
-     * @var string
-     */
-    protected $api_version = 1;
-    protected $endpoint;
-
-    protected function getData() : array {
+    public function getData() : array {
        try {
         $this->validate();
         $data = $this->getParameters();
@@ -25,7 +16,7 @@ abstract class AbstractRequest implements RequestInterface
        return $data;
     }
 
-    public function send() : ResponseInterface {
+    public function send() : ?ResponseInterface {
         return $this->sendData($this->getData());
     }
 
@@ -33,24 +24,22 @@ abstract class AbstractRequest implements RequestInterface
 
     abstract protected function sendData($data) :?ResponseInterface;
 
-    protected function setEndpoint($value) {
-        $this->endpoint = $value;
-    }
-
     abstract protected function sendRequest($method, $endpoint, array $headers = [], array $data = [] );
 
     abstract protected function setParameter(string $key, $value);
     abstract protected function createResponse(array $data) : ResponseInterface;
 
-    abstract public function setApiVersion($value);
+    abstract public function setApiVersion(int $value);
 
     abstract public function getApiVersion() : int;
 
-    abstract public function getEndpointUrl(?array $params = []): string; 
+    abstract public function getEndpointUrl(array $params = []): string; 
 
-    abstract public function getTestMode(): boolean;
+    abstract public function getTestMode(): bool;
 
-    abstract public function setTestMode( $value = true);
+    abstract public function setTestMode(bool $mode);
 
-    abstract public function getParameters();
+    abstract public function getParameters() : array;
+
+    abstract public function initialize(array $parameters);
  }
