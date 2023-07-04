@@ -17,6 +17,8 @@ abstract class AbstractClient implements ClientInterface
 
   abstract public function setDefaultParameters(array $params);
   
+  abstract public function initialize(array $parameters) ;
+
   public function createRequest(string $class_name, array $parameters ) :RequestInterface {
     return new $class_name($parameters);
   }
