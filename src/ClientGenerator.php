@@ -51,9 +51,10 @@ class ClientGenerator extends AbstractGenerator implements GeneratorInterface
             public function createRequest(string \$class_name, array \$parameters) : RequestInterface;
             public function getDefaultParameters(): array;
             public function setDefaultParameters(array \$data);
-            public function getApiVersion() : ?int;
+            public function getApiVersion() : int;
             public function setApiVersion(int \$val);
             public function setBaseUrl(string \$value);
+            public function initialize(array \$parameters);
         }
         PHP;
         $this->addClass('ClientInterface',$templ);
