@@ -7,14 +7,7 @@ use {{ namespace }}\Message\Response\ResponseInterface;
 
 abstract class AbstractRequest implements RequestInterface
 {
-    public function getData() : array {
-       try {
-        $this->validate();
-        $data = $this->getParameters();
-       } catch (\Exception $e) {throw $e;}
-
-       return $data;
-    }
+    abstract protected function getData() : array ;
 
     public function send() : ?ResponseInterface {
         return $this->sendData($this->getData());
