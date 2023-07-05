@@ -9,13 +9,13 @@ abstract class AbstractRequest implements RequestInterface
 {
     abstract protected function getData() : array ;
 
-    public function send() : ?ResponseInterface {
+    public function send() : ResponseInterface {
         return $this->sendData($this->getData());
     }
 
     abstract protected function validate();
 
-    abstract protected function sendData($data) :?ResponseInterface;
+    abstract protected function sendData(array $data) : ResponseInterface;
 
     abstract protected function sendRequest($method, $endpoint, array $headers = [], array $data = [] );
 

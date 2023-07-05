@@ -5,8 +5,7 @@ use {{ namespace }}\Message\Response\ResponseInterface;
 
 interface RequestInterface
 {
-    public function getData() : array;
-    public function send() : ? ResponseInterface;
+    public function send() : ResponseInterface;
     public function setApiVersion(int $value);
     public function getApiVersion() : int; 
     public function getParameters() : array;
