@@ -7,8 +7,8 @@ use {{namespace}}\Message\Request\RequestInterface;
 class {{ class_name }} extends BaseRequest implements RequestInterface
 {
   
-  private $endpoint = '{{ endpoint }}';
-  private $method = '{{ method | upper }}';
+  protected $endpoint = '{{ endpoint }}';
+  protected $method = '{{ method | upper }}';
   protected $http_client;
 
   function __construct(array $parameters = [], $http_client = null) {
