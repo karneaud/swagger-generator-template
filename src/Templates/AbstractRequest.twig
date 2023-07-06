@@ -17,7 +17,7 @@ abstract class AbstractRequest implements RequestInterface
 
     abstract protected function sendData(array $data) : ResponseInterface;
 
-    abstract protected function sendRequest($method, $endpoint, array $headers = [], array $data = [] );
+    abstract protected function sendRequest(string $method, string $endpoint, array $headers = [], array $data = [] );
 
     abstract protected function setParameter(string $key, $value);
     abstract protected function createResponse(array $data) : ResponseInterface;
