@@ -22,7 +22,7 @@ class ClientGenerator extends AbstractGenerator implements GeneratorInterface
         foreach ($options['paths'] as $path => $info) {
             foreach ($info as $method => $details) {
                 $namespace = $this->namespace;
-                $methods[$method] = ['name'=> $this->getClassName("{$method}{$path}"), 'has_parameters' => $this->hasParameters($info) ];
+                $methods[$path][$method] = ['name'=> $this->getClassName("{$method}{$path}"), 'has_parameters' => $this->hasParameters($details) ];
             }
         }
         
@@ -48,13 +48,11 @@ class ClientGenerator extends AbstractGenerator implements GeneratorInterface
 
         interface ClientInterface
         {
-            public function createRequest(string \$class_name, array \$parameters) : RequestInterface;
             public function getDefaultParameters(): array;
             public function setDefaultParameters(array \$data);
             public function getApiVersion() : int;
             public function setApiVersion(int \$val);
             public function setBaseUrl(string \$value);
-            public function initialize(array \$parameters);
         }
         PHP;
         $this->addClass('ClientInterface',$templ);

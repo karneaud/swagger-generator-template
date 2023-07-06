@@ -1,13 +1,15 @@
 <?php
 namespace {{ namespace }};
 
-use {{ namespace }}\Message\Request\RequestInterface;
+use {{ namespace }}\Message\Response\ResponseInterface;
 
 trait ApiTrait
 {
-  {% for method,func in methods %}
-  public function {{ method }}{{ func.name }}({{ func.has_params? 'array \$params' : '' }}) : ResponseInterface {
-    return $this->createRequest('{{func.name}}',$params)->send();  
+  {% for method in methods %}
+  {% for method_name,func in method %}
+  public function {{ method_name }}{{ func.name }}({{ func.has_parameters? 'array \$params' : '' }}) : ResponseInterface {
+    return $this->createRequest('{{func.name}}', {{func.has_parameters? '\$params' : 'null' }} )->send();  
   }
+  {% endfor %}
   {% endfor %}
  }
