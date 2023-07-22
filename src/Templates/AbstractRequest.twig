@@ -22,15 +22,19 @@ abstract class AbstractRequest implements RequestInterface
     abstract protected function setParameter(string $key, $value);
     abstract protected function createResponse(array $data) : ResponseInterface;
 
-    abstract public function setApiVersion(int $value);
-
-    abstract public function getApiVersion() : int;
-
-    abstract public function getEndpointUrl(array $params = []): string; 
+    abstract protected function getApiVersion() : int;
+    
+    public function setEndpoint(string $value) {
+        $this->endpoint = $value;
+    }
+    
+    abstract protected function getEndpointUrl(?array $params = []): string; 
 
     abstract public function getTestMode(): bool;
 
-    abstract public function setTestMode(bool $mode);
+    public function setTestMode( $value = true) {
+        $this->test_mode = $value;
+    }
 
     abstract public function getParameters() : array;
 
