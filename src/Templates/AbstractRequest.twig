@@ -7,6 +7,10 @@ use {{ namespace }}\Message\Response\ResponseInterface;
 
 abstract class AbstractRequest implements RequestInterface
 {
+
+    protected $test_mode = false;
+    protected $api_version;
+    protected $method = 'GET';
     abstract protected function getData() : array ;
 
     public function send() : ResponseInterface {
@@ -22,18 +26,22 @@ abstract class AbstractRequest implements RequestInterface
     abstract protected function setParameter(string $key, $value);
     abstract protected function createResponse(array $data) : ResponseInterface;
 
-    abstract protected function getApiVersion() : int;
-    
-    public function setEndpoint(string $value) {
-        $this->endpoint = $value;
+    public function setApiVersion(int $value) {
+        $this->api_version = $value;
     }
-    
-    abstract protected function getEndpointUrl(?array $params = []): string; 
 
-    abstract public function getTestMode(): bool;
+    public function getApiVersion() :int {
+        return $this->api_version;
+    }
 
-    public function setTestMode( $value = true) {
-        $this->test_mode = $value;
+    abstract public function getEndpointUrl(array $params = []): string; 
+
+    public function getTestMode(): bool {
+        return $this->test_mode;
+    }
+
+    public function setTestMode(bool $mode) {
+        $this->test_mode = $mode;
     }
 
     abstract public function getParameters() : array;
