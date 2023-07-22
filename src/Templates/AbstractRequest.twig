@@ -11,6 +11,7 @@ abstract class AbstractRequest implements RequestInterface
     protected $test_mode = false;
     protected $api_version;
     protected $method = 'GET';
+    
     abstract protected function getData() : array ;
 
     public function send() : ResponseInterface {
