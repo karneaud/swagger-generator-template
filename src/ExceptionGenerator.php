@@ -5,7 +5,7 @@ namespace Karneaud\Generator;
 use SwaggerGen\Generator\AbstractGenerator;
 use SwaggerGen\Generator\GeneratorInterface;
 
-class ResponseGenerator extends AbstractGenerator implements GeneratorInterface
+class ExceptionGenerator extends AbstractGenerator implements GeneratorInterface
 {
 
     private $templ = <<<PHP
