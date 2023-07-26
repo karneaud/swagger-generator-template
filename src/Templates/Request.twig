@@ -10,10 +10,11 @@ class {{ class_name }} extends BaseRequest implements RequestInterface
   protected $endpoint = '{{ endpoint }}';
   protected $method = '{{ method | upper }}';
   protected $http_client;
+  protected static $model = '{{ model }}';
 
-  function __construct(array $parameters = [], $http_client = null) {
+  function __construct($model, $http_client = null) {
       parent::__construct($http_client);
-      $this->initialize($parameters);
+      $this->initialize((array) $model);
   }
   
   {% for param,type in class_parameters %}

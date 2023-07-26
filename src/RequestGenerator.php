@@ -25,8 +25,9 @@ class RequestGenerator extends AbstractGenerator implements GeneratorInterface
                     $endpoint = $path;
                     $method = ucfirst($method);
                     $namespace = $this->namespace;
+                    $model = $this->getMethodModel($details); 
                     $class_name = $this->getClassName("{$method}{$path}");
-                    $content = $twig->render('Request.twig', compact('namespace','class_name','class_parameters','method','endpoint'));
+                    $content = $twig->render('Request.twig', compact('namespace','class_name','class_parameters','method','endpoint','model'));
                     $this->addClass($class_name,$content);
                 }
             }
@@ -35,6 +36,13 @@ class RequestGenerator extends AbstractGenerator implements GeneratorInterface
             $this->addClass('AbstractRequest', $twig->render('AbstractRequest.twig', ['namespace' => $this->namespace ] ));
 
         }
+    }
+
+    private function getMethodModel($details) {
+        $component = $details['requestBody']['content']['application/json']['schema']['$ref'] ?? '';
+        $component = basename($component);
+
+        return $component ?? null;
     }
 
     function getNamespace() : string {

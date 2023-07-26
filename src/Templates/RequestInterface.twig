@@ -10,4 +10,6 @@ interface RequestInterface
     public function getApiVersion() : int; 
     public function getParameters() : array;
     public function initialize(array $parameters);
+    public static function hasModel(): bool;
+    public static function getModelName(): string;
 }
