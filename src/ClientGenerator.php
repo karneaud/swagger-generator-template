@@ -22,7 +22,9 @@ class ClientGenerator extends AbstractGenerator implements GeneratorInterface
         foreach ($options['paths'] as $path => $info) {
             foreach ($info as $method => $details) {
                 $namespace = $this->namespace;
-                $methods[$path][$method] = ['name'=> $this->getClassName("{$method}{$path}"), 'has_parameters' => $this->hasParameters($details) ];
+                $name = $this->getClassName("{$path}");
+                //$name = strtolower(substr($name,0,1)) . substr($name,1);
+                $methods[$path][$method] = ['name'=> $name, 'has_parameters' => $this->hasParameters($details) ];
             }
         }
         
