@@ -1,0 +1,34 @@
+<?php
+namespace {{namespace}}\Model;
+
+use JsonSerializable;
+use {{namespace}}\Model\BaseModel;
+
+class {{ model_name }}Model extends BaseModel implements JsonSerializable {
+
+    protected $properties;
+
+    protected $attributes = [
+        {% for name, props in attributes %}
+            "{{ name }}" => "{{ props.type }}", 
+        {% endfor %}
+    ];
+	
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
+
+	private $_is_error = false;
+
+	protected $defaults = [
+        {% for name, props in attributes %}
+            "{{ name }}" => "{{props.default}}",
+        {% endfor %}
+    ];
+
+    protected $required = [
+         {% for name, props in attributes %}
+            {% if not props.nullable and name is not same as('id') %}
+                    "{{ name }}",
+            {% endif %}
+        {% endfor %}  
+    ];
+}
