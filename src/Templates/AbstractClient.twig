@@ -7,6 +7,8 @@ abstract class AbstractClient implements ClientInterface
 {
   
   protected $default_parameters = [];
+
+  protected $api_version;
   
   public function getDefaultParameters() : array {
     return  $this->default_parameters;
