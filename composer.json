@@ -7,12 +7,12 @@
         "karneaud/swagger-php-generator": "dev-dev",
         "symfony/debug-bundle": "^6.0"
     },
-    "repositories": [
+    "repositories": 
         {
-            "type": "package",
-            "package": {
+            
+          "package": {
               "name": "karneaud/swagger-php-generator",
-              "type": "package",
+              "version":"dev",
               "require": {
                 "php":">=7.4 || ^8.0",
                 "nette/php-generator": "^3.0",
@@ -25,19 +25,20 @@
                   "SwaggerGen\\": "src/"
                 }
               },
+
               "bin":[
                 "bin/generate"
               ],
-              "source": {
                 "url": "https://github.com/karneaud/swagger-php-generator.git",
                 "type": "git",
                 "reference": "dev"
-              }
+              
             }
-          }],
+          },
     "config": {
         "allow-plugins": {
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "composer/installers": true
         }
     },
     "extra": {
