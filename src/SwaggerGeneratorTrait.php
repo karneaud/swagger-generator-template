@@ -22,7 +22,7 @@ trait SwaggerGeneratorTrait {
                 $type = 'bool'; break;
             case $type == 'double':
                 $type = 'float'; break;
-            case !in_array($type,['int','bool','array']):
+            case !in_array($type,['int','bool','array','object']):
                 $type = 'string';
             default : break;
         }
@@ -49,7 +49,7 @@ trait SwaggerGeneratorTrait {
             } else if(isset($requestBody['content']['application/json']['schema']['properties'])) {
                 $requestBodyParameters = $requestBody['content']['application/json']['schema']['properties'];
                 foreach ($requestBodyParameters as $key => $requestBodyParameter) {
-                    $parameters[$key] = $ths->fixType($requestBodyParameter['type']);
+                    $parameters[$key] = $this->fixType($requestBodyParameter['type']);
                 }
             }
         }
@@ -57,4 +57,13 @@ trait SwaggerGeneratorTrait {
         return $parameters;
     }
 
+    private function blankValue($value = '', string $type = 'string') {
+        settype($value,$type);
+        
+        return $value;
+    }
+    
+    protected function notScalarType(string $type): bool{
+		return !in_array($type, ['int', 'string', 'bool', 'float', 'array','object']);
+	}
 }
