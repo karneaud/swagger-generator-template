@@ -3,8 +3,9 @@ namespace {{namespace}}\Model;
 
 use JsonSerializable;
 use {{namespace}}\Model\BaseModel;
+use {{namespace}}\Model\ModelInterface;
 
-class {{ model_name }}Model extends BaseModel implements JsonSerializable {
+class {{ model_name }}Model extends BaseModel implements ModelInterface {
 
     protected $properties;
 
@@ -19,16 +20,23 @@ class {{ model_name }}Model extends BaseModel implements JsonSerializable {
 	private $_is_error = false;
 
 	protected $defaults = [
-        {% for name, props in attributes %}
-            "{{ name }}" => "{{props.default}}",
-        {% endfor %}
+        {%- for name, props in attributes -%}
+            {%- if name is not same as('id') -%}
+                "{{- name -}}" =>
+                {%- if props.type is same as('string') -%}
+                '{{- props.default -}}'
+                {%- else -%}
+                {{- props.default -}}
+                {%- endif -%},
+            {%- endif -%}
+        {%- endfor -%}
     ];
 
     protected $required = [
-         {% for name, props in attributes %}
-            {% if not props.nullable and name is not same as('id') %}
-                    "{{ name }}",
-            {% endif %}
-        {% endfor %}  
+        {%- for name, props in attributes -%}
+            {%- if not props.nullable and name is not same as('id') -%}
+                "{{- name -}}",
+            {%- endif -%}
+        {%- endfor -%}  
     ];
 }
