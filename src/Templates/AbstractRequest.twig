@@ -11,7 +11,6 @@ abstract class AbstractRequest implements RequestInterface
     protected $test_mode = false;
     protected $api_version;
     protected $method = 'GET';
-    protected static $model;
     
     abstract protected function getData() : array ;
 
@@ -30,14 +29,6 @@ abstract class AbstractRequest implements RequestInterface
 
     public function setApiVersion(int $value) {
         $this->api_version = $value;
-    }
-
-    public static function hasModel() : bool {
-        return (bool) static::$model;
-    }
-
-    public static function getModelName() : string {
-        return  static::$model;
     }
 
     public function getApiVersion() :int {
