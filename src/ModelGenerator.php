@@ -24,7 +24,7 @@ class ModelGenerator extends AbstractGenerator implements GeneratorInterface {
             
             foreach ($options['components']['schemas'] as $model => $info) {
 				$model_name = str_replace('Dto','',$model);
-				$attributes = $this->extractProperties($info['properties'] ?? null);
+				$attributes = $this->extractProperties($info['properties'] ?? []);
 				$namespace = $this->namespace;
 				$content = $twig->render('Model.twig', compact('namespace','model_name','attributes'));
 				$this->addClass("{$model_name}Model",$content);
@@ -33,29 +33,27 @@ class ModelGenerator extends AbstractGenerator implements GeneratorInterface {
     }
 
 	protected function extractProperties($properties = null) {
-		if(is_null($properties)) return [];
-
 		foreach ($properties as $key => $value) {
-			if(is_null($value)) {unset($properties[$key]); continue;}
-
-			elseif(!array_key_exists('$ref', $value)) {
+			if(!is_null($value) && !array_key_exists('$ref', $value)) {
 				$value['type'] = $this->fixType($value['type']);
 				$value['format'] = $this->fixType($value['format'] ?? null );
 				$value['nullable'] = $value['nullable'] ?? false;
-				$value['default'] = $value['nullable'] ? null : ' ';
+				$value['default'] =  $value['nullable'] ? $this->blankValue(0,$value['format']) : $this->blankValue(0,$value['format']);
 			} else {
 				$value['type'] = 'object';
 				$value['format'] = 'object';
 				$value['nullable'] = true;
-				$value['default'] = null;
+				$value['default'] = $this->blankValue('null','int');
 			}
 
 			$properties[$key] = $value;
+			print_r($properties);
 		}
 
 		return $properties;
 	}
 
+	
 
     function getNamespace() : string {
         return "{$this->namespace}\\Model";
