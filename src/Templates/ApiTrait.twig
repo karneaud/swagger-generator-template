@@ -8,7 +8,7 @@ trait ApiTrait
   {% for method in methods %}
   {% for method_name,func in method %}
   public function {{method_name}}{{ func.name }}({{ func.has_parameters? 'array \$params' : '' }}) : ResponseInterface {
-    return $this->createRequest('{{func.name}}', {{func.has_parameters? '\$params' : 'null' }} )->send();  
+    return $this->createRequest('{{ method_name[:1]|upper ~ method_name[1:] }}{{func.name}}', {{func.has_parameters? '\$params' : 'null' }} )->send();  
   }
   {% endfor %}
   {% endfor %}
