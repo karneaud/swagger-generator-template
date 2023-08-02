@@ -47,7 +47,6 @@ class ModelGenerator extends AbstractGenerator implements GeneratorInterface {
 			}
 
 			$properties[$key] = $value;
-			print_r($properties);
 		}
 
 		return $properties;
