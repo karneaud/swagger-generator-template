@@ -18,5 +18,5 @@ abstract class AbstractClient implements ClientInterface
     $this->default_parameters = $params;
   }
   
-  abstract protected function createRequest(string $class_name, array $parameters ) :RequestInterface;
+  abstract protected function createRequest(string $class_name, ?array $parameters = [] ) :RequestInterface;
 }
