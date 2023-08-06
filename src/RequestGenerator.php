@@ -11,7 +11,6 @@ class RequestGenerator extends AbstractGenerator implements GeneratorInterface
 {
 
     use SwaggerGeneratorTrait;
-
     public function build(array $options)
     {
         if (isset($options['paths'])) {

@@ -40,18 +40,23 @@ trait SwaggerGeneratorTrait {
         }
 
         if(!empty($requestBody = ($details['requestBody'] ?? []))){
-            
             if (isset($requestBody['content']['application/json']['schema']['$ref'])) {
                 $ref = $requestBody['content']['application/json']['schema']['$ref'];
                 $componentSchema = $openapi['components']['schemas'][ substr($ref,strrpos($ref,'/') +1 )];
                 $parameters = array_merge($parameters, array_map(fn($prop) => $prop['type'] ?? null,$componentSchema['properties']));
                 $parameters = array_map([$this,'fixType'],array_filter($parameters));
+                 
             } else if(isset($requestBody['content']['application/json']['schema']['properties'])) {
                 $requestBodyParameters = $requestBody['content']['application/json']['schema']['properties'];
                 foreach ($requestBodyParameters as $key => $requestBodyParameter) {
                     $parameters[$key] = $this->fixType($requestBodyParameter['type']);
                 }
+            } else if($type = $requestBody['content']['application/json']['schema']['type'] ){
+                if($type && $type == 'array') {
+                    $parameters = array_merge($parameters,['items'=>'array']);
+                }
             }
+             
         }
     
         return $parameters;
