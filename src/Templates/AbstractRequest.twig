@@ -35,7 +35,7 @@ abstract class AbstractRequest implements RequestInterface
         return $this->api_version;
     }
 
-    abstract public function getEndpointUrl(array $params = []): string; 
+    abstract public function getEndpointUrl(): string; 
 
     public function getTestMode(): bool {
         return $this->test_mode;
