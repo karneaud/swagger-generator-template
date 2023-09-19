@@ -16,7 +16,7 @@ trait SwaggerGeneratorTrait {
 
     function fixType($type = 'string') {
         switch(true) {
-            case in_array($type,['integer','number']): 
+            case in_array($type,['integer','number','enum']): 
                 $type = 'int'; break;
             case $type == 'boolean': 
                 $type = 'bool'; break;
@@ -43,9 +43,9 @@ trait SwaggerGeneratorTrait {
             if (isset($requestBody['content']['application/json']['schema']['$ref'])) {
                 $ref = $requestBody['content']['application/json']['schema']['$ref'];
                 $componentSchema = $openapi['components']['schemas'][ substr($ref,strrpos($ref,'/') +1 )];
-                $parameters = array_merge($parameters, array_map(fn($prop) => $prop['type'] ?? null,$componentSchema['properties']));
+                $parameters = array_merge($parameters, array_map(fn($prop) => 
+                $prop['type'] ?? (isset($prop['$ref']) ? $openapi['components']['schemas'][ substr($prop['$ref'],strrpos($prop['$ref'],'/') +1 )]['type'] : 'string'),$componentSchema['properties']));
                 $parameters = array_map([$this,'fixType'],array_filter($parameters));
-                 
             } else if(isset($requestBody['content']['application/json']['schema']['properties'])) {
                 $requestBodyParameters = $requestBody['content']['application/json']['schema']['properties'];
                 foreach ($requestBodyParameters as $key => $requestBodyParameter) {
